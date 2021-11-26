@@ -1,0 +1,45 @@
+﻿
+	Bot A
+----------------
+
+First trading bot test using the alligator strategy as described in https://www.youtube.com/watch?v=eJyz7CRWWW0
+
+*Second trading bot will have a combination of alligator with the 200 ema as an overal enabler (shown at the end of the video)
+
+* Third bot will use this https://www.reddit.com/r/Daytrading/comments/jbzisu/modified_alligator_strategy_with_pictures/
+
+
+Timeframe:
+	Candlesticks represented at 1m / 10m / 1h
+	Price monitored at			real time
+
+
+
+
+Behaviour: 
+----------------
+BUY SIGNAL:
+	Lips (green line) is below teeth (red)
+	A candle closed above the teeth (red)
+
+SELL (EXIT) SIGNAL
+	A candle hits the lips (green)
+	OR
+	Loss of 2% of account
+
+
+	Notes:
+Rewatch https://www.youtube.com/watch?v=bNxt298VVOw. At 1:10:00 he says abou ta abalance line. also check
+his book and the fractals strategy
+
+
+
+
+
+
+
+
+
+
+
+
