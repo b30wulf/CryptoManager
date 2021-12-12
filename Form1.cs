@@ -660,8 +660,8 @@ namespace CryoManager {
                     }
                 }
             });
-            
 
+            debugControls.print("End of fucntion");
 
 
             debugControls.print("End of fucntion");
