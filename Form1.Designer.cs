@@ -39,6 +39,7 @@ namespace CryoManager {
             this.importTradesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.importDepositsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.parseTransactionsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.backtestToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.dataGridView_ownedCoins = new System.Windows.Forms.DataGridView();
             this.ColumnCoin = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.ColumnQnty = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -72,6 +73,7 @@ namespace CryoManager {
             this.checkBox_sound = new System.Windows.Forms.CheckBox();
             this.button_clearChart = new System.Windows.Forms.Button();
             this.button_openCharts = new System.Windows.Forms.Button();
+            this.histogramToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.menuStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView_ownedCoins)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView_coinTrades)).BeginInit();
@@ -104,7 +106,9 @@ namespace CryoManager {
             this.menuStrip1.ImageScalingSize = new System.Drawing.Size(20, 20);
             this.menuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.fileToolStripMenuItem,
-            this.importToolStripMenuItem});
+            this.importToolStripMenuItem,
+            this.backtestToolStripMenuItem,
+            this.histogramToolStripMenuItem});
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
             this.menuStrip1.Name = "menuStrip1";
             this.menuStrip1.Padding = new System.Windows.Forms.Padding(5, 2, 0, 2);
@@ -148,6 +152,13 @@ namespace CryoManager {
             this.parseTransactionsToolStripMenuItem.Size = new System.Drawing.Size(209, 26);
             this.parseTransactionsToolStripMenuItem.Text = "Parse transactions";
             this.parseTransactionsToolStripMenuItem.Click += new System.EventHandler(this.parseTransactionsToolStripMenuItem_Click);
+            // 
+            // backtestToolStripMenuItem
+            // 
+            this.backtestToolStripMenuItem.Name = "backtestToolStripMenuItem";
+            this.backtestToolStripMenuItem.Size = new System.Drawing.Size(78, 24);
+            this.backtestToolStripMenuItem.Text = "Backtest";
+            this.backtestToolStripMenuItem.Click += new System.EventHandler(this.backtestToolStripMenuItem_Click);
             // 
             // dataGridView_ownedCoins
             // 
@@ -410,6 +421,7 @@ namespace CryoManager {
             this.button_stopBot.TabIndex = 19;
             this.button_stopBot.Text = "Stop bot";
             this.button_stopBot.UseVisualStyleBackColor = true;
+            this.button_stopBot.Click += new System.EventHandler(this.button_stopBot_Click);
             // 
             // label1
             // 
@@ -483,6 +495,13 @@ namespace CryoManager {
             this.button_openCharts.Text = "Open charts";
             this.button_openCharts.UseVisualStyleBackColor = true;
             this.button_openCharts.Click += new System.EventHandler(this.button_openCharts_Click);
+            // 
+            // histogramToolStripMenuItem
+            // 
+            this.histogramToolStripMenuItem.Name = "histogramToolStripMenuItem";
+            this.histogramToolStripMenuItem.Size = new System.Drawing.Size(93, 24);
+            this.histogramToolStripMenuItem.Text = "Histogram";
+            this.histogramToolStripMenuItem.Click += new System.EventHandler(this.histogramToolStripMenuItem_Click);
             // 
             // Form1
             // 
@@ -570,6 +589,8 @@ namespace CryoManager {
         private System.Windows.Forms.CheckBox checkBox_sound;
         private System.Windows.Forms.Button button_clearChart;
         private System.Windows.Forms.Button button_openCharts;
+        private System.Windows.Forms.ToolStripMenuItem backtestToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem histogramToolStripMenuItem;
     }
 }
 

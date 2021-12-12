@@ -95,6 +95,25 @@ namespace CryoManager {
             return allig_lines;
         }
         
+        public static List<(double, double)> computeMovingAverage(OHLC[] candles) {
+            List<(double, double)> movAvg = new List<(double, double)>();
+            (double, double) newPoint;
+            double averaged = 0;
+            for (int i = 0; i < candles.Length; i++) {
+                averaged = 0;
+                for (int j = i; j > i - 25 && i > 25; j--) {
+                    averaged += candles[j].Close;
+                }
+                if (averaged != 0)
+                    averaged = averaged / 25;
+                newPoint = (candles[i].DateTime.ToOADate(), averaged);
+                //newPoint = (candles[i].DateTime.ToOADate(), averaged);
+                movAvg.Add(newPoint);
+            }
+            return movAvg;
+        }
+        
+
         public static IEnumerable<Quote> parseCandlesToQuote(OHLC[] candles) {
             // Transforms the data from the OHLC to Quotes
             IEnumerable<Quote> quote_enum = new Quote[] { };

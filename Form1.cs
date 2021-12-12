@@ -45,7 +45,7 @@ namespace CryoManager {
             InitializeComponent();
             BinanceClient.SetDefaultOptions(new BinanceClientOptions() {
                 ApiCredentials = new ApiCredentials("APIKEY", "APISECRET"),
-                LogLevel = LogLevel.Debug,
+                LogLevel = LogLevel.Warning,
                 LogWriters = new List<ILogger> { new ConsoleLogger() }
             });
             BinanceSocketClient.SetDefaultOptions(new BinanceSocketClientOptions() {
@@ -246,7 +246,6 @@ namespace CryoManager {
                     debugControls.print($"Total: {numberOfParsedTrades} parsed trades");
                 }
                 // Now all trades are added to the unmodified list.
-
                 // Aggregate partial trades into one and store values in agg_trades_list
                 Trade.aggregatePartialTrades(myPortfolio.unmodified_trades_list, myPortfolio.agg_trades_list);
                 // Now all trades are saved into myportfolio and partial trades have been aggregated 
@@ -262,7 +261,6 @@ namespace CryoManager {
 
             updateDataGridView_ownedCoins();
         }
-
         #endregion
 
         private async void button_get_btc_price_Click(object sender, EventArgs e) {
@@ -394,7 +392,6 @@ namespace CryoManager {
             });
 
         }
-
         #endregion
         
         #region DATA GRID VIEW CONTROLS
@@ -464,10 +461,9 @@ namespace CryoManager {
         #endregion
 
 
-
-
-
         private async void button_startBot_Click(object sender, EventArgs e) {
+            Algobot myBot = new Algobot();
+
             // Start form with extra plots
             Form2_charts forms2Charts = new Form2_charts();
             forms2Charts.Visible = true;
@@ -480,9 +476,9 @@ namespace CryoManager {
             debugControls.clearLog();
             //debugControls.newLogFile();
             debugControls.print("Instancing trading bot...");
-            Algobot myBot = new Algobot();
-            debugControls.print("Name: " + myBot.name);
-            debugControls.print("Strategy: \r\n" + myBot.strategyText);
+            //Algobot myBot = new Algobot();
+            //debugControls.print("Name: " + myBot.name);
+            //debugControls.print("Strategy: \r\n" + myBot.strategyText);
             debugControls.print("Timeframe: " + myBot.timeFrame + "\r\n");
             debugControls.print($"Fetching {myBot.coinPair} - {myBot.timeFrame} data from Binance...");
             // Define stuff to get from binance
@@ -536,6 +532,7 @@ namespace CryoManager {
             //OHLC previousCandle_data;
             OHLC lastCandle = null;
             List<Tuple<double[], double[]>> allig_lines2 = new List<Tuple<double[], double[]>>();
+            
             await socketClient3.Spot.SubscribeToKlineUpdatesAsync(myBot.coinPair, interval, candle_data => {
                 // Updates are received every few seconds regardless of the interval requested
                 // This method is only used to update candles when a candle closes and a new candle opens
@@ -677,24 +674,29 @@ namespace CryoManager {
 
 
         }
-
         private void button_clearChart_Click(object sender, EventArgs e) {
             formsPlotPrice.Plot.Clear();
             formsPlotPrice.Refresh();
         }
-
         private void button_openCharts_Click(object sender, EventArgs e) {
             // Start form with extra plots
             Form2_charts forms2Charts = new Form2_charts();
             forms2Charts.Visible = true;
         }
+        private void button_stopBot_Click(object sender, EventArgs e) {
+            Algobot myBot = new Algobot();
+        }
+        private void backtestToolStripMenuItem_Click(object sender, EventArgs e) {
+            Backtesting.Forms_backtesting backtestForm = new Backtesting.Forms_backtesting();
+            backtestForm.Visible = true;
+            //Backtesting.backtestingDirector backtest = new Backtesting.backtestingDirector();
+        }
+
+        private void histogramToolStripMenuItem_Click(object sender, EventArgs e) {
+            Backtesting.Histogram newHistogram = new Backtesting.Histogram();
+            newHistogram.Visible = true;
+        }
     }
-
-
-
-
-
-
 
 }
 
@@ -716,12 +718,13 @@ public class debugControls {
 
     public static async void print(String str) {
         // Create output string
-        string outputLogLine = $"{DateTime.Now.ToString()}   {str}";
+        string outputLogLine = $"{DateTime.Now.AddHours(-1).ToString()}   {str}";
         // Write into console
         //Console.WriteLine(DateTime.Now.ToString() + "   " + str);
         Console.WriteLine(outputLogLine);
         // Save into file
         string outputFolder = @"C:\\Users\\capit\\Desktop\\Botlog\\";
+        //string outputFolder = @"C:\\Files JuanVi\\Botlog\\";
         string todayDate = DateTime.Now.ToString("yyyy-M-dd");
         string textfileName = $"{todayDate} botlog.txt";
         //string textfileName = textfileName1;
@@ -763,5 +766,9 @@ public class debugControls {
 
     public static void newLogFile() {
 
+    }
+
+    public static void printbotTrade(CryoManager.Backtesting.botTrade trade) {
+        //debugControls.print($"{trade.symbolPair}    {trade.openTime}    {trade.closeTime}  {trade.boughtAt}  {trade.closeTime}");
     }
 }

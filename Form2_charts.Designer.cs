@@ -36,6 +36,7 @@ namespace CryoManager {
             this.splitContainer2 = new System.Windows.Forms.SplitContainer();
             this.splitContainer3 = new System.Windows.Forms.SplitContainer();
             this.button_saveScreenshot = new System.Windows.Forms.Button();
+            this.textBox_reqSymbol = new System.Windows.Forms.TextBox();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
             this.splitContainer1.Panel1.SuspendLayout();
             this.splitContainer1.Panel2.SuspendLayout();
@@ -202,11 +203,19 @@ namespace CryoManager {
             this.button_saveScreenshot.UseVisualStyleBackColor = true;
             this.button_saveScreenshot.Click += new System.EventHandler(this.button_saveScreenshot_Click);
             // 
+            // textBox_reqSymbol
+            // 
+            this.textBox_reqSymbol.Location = new System.Drawing.Point(825, 27);
+            this.textBox_reqSymbol.Name = "textBox_reqSymbol";
+            this.textBox_reqSymbol.Size = new System.Drawing.Size(296, 22);
+            this.textBox_reqSymbol.TabIndex = 11;
+            // 
             // Form2_charts
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1510, 1314);
+            this.Controls.Add(this.textBox_reqSymbol);
             this.Controls.Add(this.button_saveScreenshot);
             this.Controls.Add(this.splitContainer1);
             this.Controls.Add(this.dateTimePicker_time);
@@ -228,6 +237,7 @@ namespace CryoManager {
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer3)).EndInit();
             this.splitContainer3.ResumeLayout(false);
             this.ResumeLayout(false);
+            this.PerformLayout();
 
         }
 
@@ -244,5 +254,6 @@ namespace CryoManager {
         private System.Windows.Forms.SplitContainer splitContainer2;
         private System.Windows.Forms.SplitContainer splitContainer3;
         private System.Windows.Forms.Button button_saveScreenshot;
+        private System.Windows.Forms.TextBox textBox_reqSymbol;
     }
 }

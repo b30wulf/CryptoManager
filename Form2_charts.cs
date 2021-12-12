@@ -43,7 +43,7 @@ namespace CryoManager {
         KlineInterval chartB_interval = KlineInterval.ThreeMinutes;
         KlineInterval chartC_interval = KlineInterval.FiveMinutes;
         KlineInterval chartD_interval = KlineInterval.FifteenMinutes;
-
+        
         public Form2_charts() {
             InitializeComponent();
             // Add charts to list
@@ -99,20 +99,26 @@ namespace CryoManager {
                 DateTime req_dateTime = new DateTime(dateTimePicker_date.Value.Year, dateTimePicker_date.Value.Month, dateTimePicker_date.Value.Day,
                                                         dateTimePicker_time.Value.Hour, dateTimePicker_time.Value.Minute, dateTimePicker_time.Value.Second);
                 // Init stuff the api request, based on timeframe
-                int limit = 120;
+                int limit = 200;
                 var kLineClient = new BinanceClient();
                 // Draw candlesticks and alligator on all charts
-                //drawOnChartWithIndex(0, kLineClient, req_dateTime, limit, chartA_interval, 1); // 1 minute
-                //drawOnChartWithIndex(1, kLineClient, req_dateTime, limit, chartB_interval, 3); // 3 minute
+                requestDataandDrawOnChartWithIndex(0, kLineClient, req_dateTime, limit, chartA_interval, 1); // 1 minute
+                requestDataandDrawOnChartWithIndex(1, kLineClient, req_dateTime, limit, chartB_interval, 3); // 3 minute
                 requestDataandDrawOnChartWithIndex(2, kLineClient, req_dateTime, limit, chartC_interval, 5); // 5 minute
-                requestDataandDrawOnChartWithIndex(3, kLineClient, req_dateTime, limit, chartD_interval, 15); // 15 minute
+                try {
+                    requestDataandDrawOnChartWithIndex(3, kLineClient, req_dateTime, limit, chartD_interval, 15); // 15 minute
+                } catch (Exception) {
+
+
+                }
+                
             }
         }
         private async void requestDataandDrawOnChartWithIndex (int index, BinanceClient client, DateTime requested_time, int limit, KlineInterval interval, int candleTimespan) {
             var plt = plots_list[index];
             DateTime start_date = requested_time.AddMinutes(-(limit*candleTimespan) / 2);
             DateTime end_date = requested_time.AddMinutes(limit* candleTimespan / 2);
-            var mykline2 = await client.Spot.Market.GetKlinesAsync("SOLUSDT", interval, start_date, end_date, limit);
+            var mykline2 = await client.Spot.Market.GetKlinesAsync(textBox_reqSymbol.Text, interval, start_date, end_date, limit);
             List<OHLC> realPrices_list = new List<OHLC>();
             foreach (var candle in mykline2.Data) {
                 realPrices_list.Add(new OHLC(decimal.ToDouble(candle.Open), decimal.ToDouble(candle.High),
@@ -134,10 +140,14 @@ namespace CryoManager {
             //plt.Plot.YAxis.ManualTickSpacing(.5);
             // Do the alligator
             List<Tuple<double[], double[]>> allig_lines = new List<Tuple<double[], double[]>>();
-            allig_lines = HistoricalCharts.computeAlligatorLines(realPricesArray);
-            plt.Plot.AddScatterLines(allig_lines[0].Item1, allig_lines[0].Item2, Color.Blue, 1).YAxisIndex = 1;
-            plt.Plot.AddScatterLines(allig_lines[1].Item1, allig_lines[1].Item2, Color.Red, 1).YAxisIndex = 1;
-            plt.Plot.AddScatterLines(allig_lines[2].Item1, allig_lines[2].Item2, Color.Green, 1).YAxisIndex = 1;
+            if (realPricesArray.Count() >= 115) {
+                // Not enough candles to make alligator, so request a previous time so there are enough periods TODO
+                allig_lines = HistoricalCharts.computeAlligatorLines(realPricesArray);
+                plt.Plot.AddScatterLines(allig_lines[0].Item1, allig_lines[0].Item2, Color.Blue, 1).YAxisIndex = 1;
+                plt.Plot.AddScatterLines(allig_lines[1].Item1, allig_lines[1].Item2, Color.Red, 1).YAxisIndex = 1;
+                plt.Plot.AddScatterLines(allig_lines[2].Item1, allig_lines[2].Item2, Color.Green, 1).YAxisIndex = 1;
+            }
+            
             // Add axisSpans for the higher timeframes, based on the 5 minute
             plt.Refresh();
             // show the candle of query
@@ -220,14 +230,14 @@ namespace CryoManager {
                 vline.PositionFormatter = vFormatter;
                 vline.PositionLabel = true;
                 vline.Color = Color.Red;
-                vline.LineWidth = 2;
+                vline.LineWidth = 0.5f;
                 vline.PositionLabelBackground = vline.Color;
                 // Horizontal price line
                 plt.Plot.Clear(typeof(ScottPlot.Plottable.HLine));
                 var hline = plt.Plot.AddHorizontalLine(coordinateY);
                 hline.PositionLabel = true;
                 hline.Color = Color.Red;
-                hline.LineWidth = 2;
+                hline.LineWidth = 1f;
                 hline.PositionLabelBackground = hline.Color;
                 plt.Refresh();
             }
